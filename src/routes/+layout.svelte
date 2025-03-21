@@ -1,7 +1,10 @@
 <script>import "../app.css";
+import { inject } from '@vercel/analytics';
 /** @type {{children?: import('svelte').Snippet}} */
 let { children } = $props();
 
+// Inicializa o analytics
+inject();
 </script>
 
 <main class="font-sans antialiased">
