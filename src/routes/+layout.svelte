@@ -7,20 +7,13 @@ let { children } = $props();
 inject();
 </script>
 
-<main class="font-sans antialiased">
-	{@render children?.()}
-</main>
-
 <slot />
 
 <style>
 	:global(body) {
 		margin: 0;
 		padding: 0;
-		box-sizing: border-box;
-		font-family: 'Inter', system-ui, -apple-system, sans-serif;
-		background-color: #000;
-		color: #fff;
+		min-height: 100vh;
 	}
 
 	:global(html) {
@@ -42,5 +35,11 @@ inject();
 
 	:global(::-webkit-scrollbar-thumb:hover) {
 		background: #2563eb;
+	}
+
+	.app {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
 	}
 </style>

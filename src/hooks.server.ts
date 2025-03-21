@@ -5,3 +5,7 @@ export const handle = injectAnalytics();
 
 // Optional: Add error handling
 export const handleError = handleErrorWithSentry(); 
+
+function handleErrorWithSentry() {
+    throw new Error('Function not implemented.');
+}

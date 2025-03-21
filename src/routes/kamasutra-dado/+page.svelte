@@ -336,10 +336,18 @@
 
     <!-- Modal do Resultado -->
     {#if showModal && currentPosition}
-      <div class="fixed inset-0 flex items-center justify-center z-50" on:click={closeModal}>
+      <div 
+        class="fixed inset-0 flex items-center justify-center z-50" 
+        role="dialog"
+        aria-modal="true"
+        on:click={closeModal}
+        on:keydown={e => e.key === 'Escape' && closeModal()}
+        tabindex="-1"
+      >
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
         <div 
           class="relative max-w-4xl w-full mx-4 modal-content"
+          role="document"
           on:click|stopPropagation
         >
           <div class="relative overflow-hidden rounded-3xl">
@@ -354,6 +362,7 @@
               <button 
                 class="absolute top-4 right-4 text-white/80 hover:text-white"
                 on:click={closeModal}
+                aria-label="Fechar modal"
               >
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -387,7 +396,7 @@
       animation: gradient 8s ease infinite;
     }
 
-    .floating-button.s-6vshDfNb189Y {
+    .floating-button {
       @apply px-6 py-3 md:px-16 md:py-6 text-lg md:text-2xl rounded-xl md:rounded-2xl;
       margin-bottom: 0.5rem;
     }
@@ -432,15 +441,8 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Ajustes responsivos aprimorados */
-    .floating-button.s-6vshDfNb189Y {
-      @apply px-6 py-3 md:px-16 md:py-6 text-lg md:text-2xl rounded-xl md:rounded-2xl;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Ajustes para telas muito pequenas */
     @media (max-width: 360px) {
-      .floating-button.s-6vshDfNb189Y {
+      .floating-button {
         @apply px-4 py-2 text-base;
       }
 
@@ -453,20 +455,12 @@
       }
     }
 
-    /* Ajuste para garantir espaço suficiente para o banner e botão */
-    @media (max-height: 700px) {
-      .glass-container {
-        margin-bottom: 10rem;
-      }
-    }
-
-    /* Ajuste para o modal em mobile */
     @media (max-width: 767px) {
       .modal-content {
         @apply mx-2;
       }
 
-      .modal-content .relative.p-12 {
+      .modal-content :global(.relative.p-12) {
         @apply p-6;
       }
 
@@ -478,7 +472,7 @@
         @apply text-lg;
       }
 
-      .floating-button.s-6vshDfNb189Y {
+      .floating-button {
         margin-bottom: 1rem;
       }
     }
