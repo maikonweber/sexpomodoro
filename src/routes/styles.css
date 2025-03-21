@@ -1,0 +1,39 @@
+:root {
+  --wine: #722F37;
+  --yellow: #FFD700;
+  --amethyst: #9966CC;
+}
+
+.container {
+  background-color: var(--amethyst);
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.timer-container {
+  background-color: var(--wine);
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--yellow);
+  font-size: 3rem;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.position-card {
+  background-color: var(--wine);
+  border-radius: 15px;
+  padding: 2rem;
+  color: var(--yellow);
+  margin: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.position-card:hover {
+  transform: scale(1.05);
+} 
