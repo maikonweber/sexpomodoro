@@ -473,8 +473,7 @@
 
   <!-- Link para Kamasutra Dado -->
   <a
-    href="https://kamasutra-dado.com"
-    target="_blank"
+    href="/kamasutra-dado"
     class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
            shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
            hover:scale-105 transition-all duration-500 block text-center mt-8"
