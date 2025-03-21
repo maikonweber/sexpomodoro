@@ -43,11 +43,28 @@
     imageUrl?: string;
   }
 
-  // URLs dos sons
+  // URLs dos sons com fallback para CDN
   const SOUND_URLS = {
-    click: 'https://cdn.pixabay.com/download/audio/2022/03/24/audio_c8c6a797f1.mp3?filename=click-button-140881.mp3',
-    timerEnd: 'https://cdn.pixabay.com/download/audio/2022/03/19/audio_c8c6a797f1.mp3?filename=notification-sound-127856.mp3',
-    hover: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=hover-pop-125867.mp3'
+    click: {
+      local: '/sounds/clicks.mp3',
+      cdn: 'https://cdn.pixabay.com/download/audio/2022/03/24/audio_c8c6a797f1.mp3?filename=click-button-140881.mp3'
+    },
+    timerEnd: {
+      local: '/sounds/times-end.mp3',
+      cdn: 'https://cdn.pixabay.com/download/audio/2022/03/19/audio_c8c6a797f1.mp3?filename=notification-sound-127856.mp3'
+    },
+    hover: {
+      local: '/sounds/hover.mp3',
+      cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=hover-pop-125867.mp3'
+    },
+    diceRoll: {
+      local: '/sounds/dice-roll.mp3',
+      cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=dice-roll-125867.mp3'
+    },
+    select: {
+      local: '/sounds/select.mp3',
+      cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=select-125867.mp3'
+    }
   };
 
   let newTaskInput = '';
@@ -216,23 +233,35 @@
     }
   }
 
-  onMount(() => {
-    // Inicializa os sons com as URLs do CDN
-    clickSound = new Audio(SOUND_URLS.click);
-    timerEndSound = new Audio(SOUND_URLS.timerEnd);
-    hoverSound = new Audio(SOUND_URLS.hover);
+  async function loadSound(soundType: keyof typeof SOUND_URLS): Promise<HTMLAudioElement> {
+    const sound = new Audio(SOUND_URLS[soundType].local);
     
-    // Pré-carrega os sons
-    clickSound.load();
-    timerEndSound.load();
-    hoverSound.load();
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    fetchRandomPosition();
-    lastSelectedMinutes = selectedMinutes;
+    try {
+      await sound.load();
+      return sound;
+    } catch (err) {
+      console.warn(`Falha ao carregar som local ${soundType}, usando CDN`, err);
+      return new Audio(SOUND_URLS[soundType].cdn);
+    }
+  }
 
-    Notification.requestPermission();
+  onMount(async () => {
+    try {
+      // Inicializa os sons
+      clickSound = await loadSound('click');
+      timerEndSound = await loadSound('timerEnd');
+      hoverSound = await loadSound('hover');
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      fetchRandomPosition();
+      lastSelectedMinutes = selectedMinutes;
+
+      Notification.requestPermission();
+    } catch (err) {
+      console.error('Erro ao inicializar sons:', err);
+    }
+    
     return () => {
       if (timer) clearInterval(timer);
       window.removeEventListener('resize', checkMobile);
@@ -243,7 +272,7 @@
     isMobile = window.innerWidth < 768;
   }
 
-  async function playSound(sound: HTMLAudioElement) {
+  async function playSound(sound: HTMLAudioElement | null) {
     if (!isMuted && sound) {
       try {
         sound.currentTime = 0;

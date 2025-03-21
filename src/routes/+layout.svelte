@@ -3,7 +3,7 @@ import { inject } from '@vercel/analytics';
 /** @type {{children?: import('svelte').Snippet}} */
 let { children } = $props();
 
-// Inicializa o analytics
+// Initialize analytics
 inject();
 </script>
 
@@ -11,8 +11,7 @@ inject();
 	{@render children?.()}
 </main>
 
-
-
+<slot />
 
 <style>
 	:global(body) {
