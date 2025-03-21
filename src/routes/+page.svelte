@@ -80,6 +80,11 @@
   // Responsividade
   let isMobile = false;
 
+  export let data;
+  let dicePositions = data.initialPositions;
+  let currentDicePosition: Position | null = null;
+  let isRolling = false;
+
   async function fetchRandomPosition() {
     loading = true;
     try {
@@ -248,7 +253,88 @@
       }
     }
   }
+
+  async function rollDice() {
+    if (isRolling) return;
+    
+    isRolling = true;
+    playSound(clickSound);
+    
+    // Efeito de rolagem
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * dicePositions.length);
+      currentDicePosition = dicePositions[randomIndex];
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    // Posição final
+    const finalIndex = Math.floor(Math.random() * dicePositions.length);
+    currentDicePosition = dicePositions[finalIndex];
+    
+    playSound(timerEndSound);
+    isRolling = false;
+  }
+
+  async function refreshDicePositions() {
+    loading = true;
+    try {
+      const positions = [];
+      for (let i = 0; i < 6; i++) {
+        const randomIndex = Math.floor(Math.random() * 450) + 1;
+        const response = await fetch(`https://dev.muttercorp.com.br/kamasutra/${randomIndex}`, {
+          headers: {
+            'accept': '*/*'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          positions.push({
+            name: data.name,
+            description: data.descricao,
+            imageUrl: data.url
+          });
+        }
+      }
+      dicePositions = positions;
+    } catch (err) {
+      console.error('Erro ao atualizar posições do dado:', err);
+    } finally {
+      loading = false;
+    }
+  }
 </script>
+
+<svelte:head>
+  <title>Kama-Doro | Pomodoro Timer com Posições do Kamasutra</title>
+  <meta name="description" content="Combine a técnica Pomodoro com posições do Kamasutra para uma experiência única de produtividade e intimidade. Timer personalizável com sugestões de posições." />
+  <meta name="keywords" content="pomodoro, kamasutra, timer, produtividade, relacionamento, intimidade, meditação" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kama-Doro | Pomodoro Timer com Kamasutra" />
+  <meta property="og:description" content="Combine a técnica Pomodoro com posições do Kamasutra para uma experiência única de produtividade e intimidade." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1200" />
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kama-Doro | Pomodoro Timer com Kamasutra" />
+  <meta name="twitter:description" content="Timer Pomodoro com sugestões de posições do Kamasutra para uma experiência única." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1200" />
+  
+  <!-- Additional Meta Tags -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4A1D96" />
+  <meta name="author" content="Kama-Doro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kama-doro.com" />
+  
+  <!-- PWA Tags -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kama-Doro" />
+</svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 backdrop-blur-md">
   <!-- Botão de Som -->
@@ -366,14 +452,15 @@
 
       <!-- Card da Posição -->
       <div
-        class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-102 cursor-pointer"
-        on:click={fetchRandomPosition}
+        class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-102 w-full"
+        role="region"
+        aria-label="Posição do Kamasutra"
       >
         <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50"></div>
         <div class="relative p-4 md:p-8 backdrop-blur-sm bg-white/5">
           {#if loading}
             <div class="flex items-center justify-center py-16">
-              <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
+              <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin" role="progressbar" aria-label="Carregando..."></div>
             </div>
           {:else}
             <div class="flex flex-col gap-6">
@@ -399,15 +486,17 @@
           {/if}
         </div>
 
-        <!-- Botão de Próxima Posição -->
-        <button
-          class="absolute bottom-4 right-4 glass-button-outline p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          on:click|stopPropagation={fetchRandomPosition}
-        >
-          <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </button>
+        <div class="absolute bottom-4 right-4 flex gap-2">
+          <button
+            class="glass-button-outline p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            on:click={fetchRandomPosition}
+            aria-label="Próxima posição"
+          >
+            <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -419,6 +508,43 @@
       style="width: {((selectedMinutes * 60 - time) / (selectedMinutes * 60)) * 100}%"
     ></div>
   </div>
+
+  <!-- Adicione este botão onde desejar na interface -->
+  <button
+    class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
+           shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
+           hover:scale-105 transition-all duration-500"
+    on:click={rollDice}
+    disabled={isRolling}
+  >
+    {#if isRolling}
+      <span class="animate-pulse">Rolando...</span>
+    {:else}
+      Rolar Dado
+    {/if}
+  </button>
+
+  <!-- Mostre as posições do dado em um grid -->
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+    {#each dicePositions as position}
+      <div class="glass-card p-4 rounded-xl {currentDicePosition?.name === position.name ? 'ring-2 ring-pink-500' : ''}">
+        {#if position.imageUrl}
+          <img src={position.imageUrl} alt={position.name} class="w-full h-48 object-cover rounded-lg mb-4" />
+        {/if}
+        <h3 class="text-xl font-bold text-white">{position.name}</h3>
+        <p class="text-white/80">{position.description}</p>
+      </div>
+    {/each}
+  </div>
+
+  <!-- Botão para atualizar as posições do dado -->
+  <button
+    class="glass-button-alt mt-4 px-6 py-3 rounded-full text-white/90"
+    on:click={refreshDicePositions}
+    disabled={loading}
+  >
+    {loading ? 'Atualizando...' : 'Novas Posições'}
+  </button>
 </div>
 
 <style lang="postcss">
@@ -481,31 +607,6 @@
   /* Animação suave para todos os elementos */
   * {
     @apply transition-all duration-300;
-  }
-
-  /* Adicionar estilos para interatividade */
-  .glass-container {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10;
-    box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
-    transition: transform 0.3s ease;
-  }
-
-  .glass-container:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Animação de pulso para o timer quando estiver próximo do fim */
-  .timer-warning {
-    animation: pulse 1s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  .aspect-video {
-    aspect-ratio: 16 / 9;
   }
 
   /* Melhorias no container de vidro */
