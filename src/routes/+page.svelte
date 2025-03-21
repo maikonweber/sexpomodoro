@@ -56,14 +56,6 @@
     hover: {
       local: '/sounds/hover.mp3',
       cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=hover-pop-125867.mp3'
-    },
-    diceRoll: {
-      local: '/sounds/dice-roll.mp3',
-      cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=dice-roll-125867.mp3'
-    },
-    select: {
-      local: '/sounds/select.mp3',
-      cdn: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_c8c6a797f1.mp3?filename=select-125867.mp3'
     }
   };
 
@@ -80,14 +72,6 @@
   };
   let loading = false;
 
-  // Lista de posições (exemplo)
-  const positions = [
-    { name: 'Lotus', description: 'Uma posição relaxante e íntima' },
-    { name: 'Borboleta', description: 'Posição delicada e romântica' },
-    { name: 'Lua Crescente', description: 'Perfeita para momentos especiais' },
-    // Adicione mais posições conforme necessário
-  ];
-
   // Sons
   let clickSound: HTMLAudioElement;
   let timerEndSound: HTMLAudioElement;
@@ -98,9 +82,6 @@
   let isMobile = false;
 
   export let data;
-  let dicePositions = data.initialPositions;
-  let currentDicePosition: Position | null = null;
-  let isRolling = false;
 
   async function fetchRandomPosition() {
     loading = true;
@@ -245,22 +226,24 @@
     }
   }
 
-  onMount(async () => {
-    try {
-      // Inicializa os sons
-      clickSound = await loadSound('click');
-      timerEndSound = await loadSound('timerEnd');
-      hoverSound = await loadSound('hover');
-      
-      checkMobile();
-      window.addEventListener('resize', checkMobile);
-      fetchRandomPosition();
-      lastSelectedMinutes = selectedMinutes;
+  onMount(() => {
+    (async () => {
+      try {
+        // Inicializa os sons
+        clickSound = await loadSound('click');
+        timerEndSound = await loadSound('timerEnd');
+        hoverSound = await loadSound('hover');
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        fetchRandomPosition();
+        lastSelectedMinutes = selectedMinutes;
 
-      Notification.requestPermission();
-    } catch (err) {
-      console.error('Erro ao inicializar sons:', err);
-    }
+        Notification.requestPermission();
+      } catch (err) {
+        console.error('Erro ao inicializar sons:', err);
+      }
+    })();
     
     return () => {
       if (timer) clearInterval(timer);
@@ -282,56 +265,6 @@
       }
     }
   }
-
-  async function rollDice() {
-    if (isRolling) return;
-    
-    isRolling = true;
-    playSound(clickSound);
-    
-    // Efeito de rolagem
-    for (let i = 0; i < 10; i++) {
-      const randomIndex = Math.floor(Math.random() * dicePositions.length);
-      currentDicePosition = dicePositions[randomIndex];
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    
-    // Posição final
-    const finalIndex = Math.floor(Math.random() * dicePositions.length);
-    currentDicePosition = dicePositions[finalIndex];
-    
-    playSound(timerEndSound);
-    isRolling = false;
-  }
-
-  async function refreshDicePositions() {
-    loading = true;
-    try {
-      const positions = [];
-      for (let i = 0; i < 6; i++) {
-        const randomIndex = Math.floor(Math.random() * 450) + 1;
-        const response = await fetch(`https://dev.muttercorp.com.br/kamasutra/${randomIndex}`, {
-          headers: {
-            'accept': '*/*'
-          }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          positions.push({
-            name: data.name,
-            description: data.descricao,
-            imageUrl: data.url
-          });
-        }
-      }
-      dicePositions = positions;
-    } catch (err) {
-      console.error('Erro ao atualizar posições do dado:', err);
-    } finally {
-      loading = false;
-    }
-  }
 </script>
 
 <svelte:head>
@@ -341,22 +274,22 @@
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Kama-Doro | Pomodoro Timer com Kamasutra" />
+  <meta property="og:title" content="SexPomodoro | Pomodoro Timer com Kamasutra" />
   <meta property="og:description" content="Combine a técnica Pomodoro com posições do Kamasutra para uma experiência única de produtividade e intimidade." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1200" />
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kama-Doro | Pomodoro Timer com Kamasutra" />
+  <meta name="twitter:title" content="SexPomodoro | Pomodoro Timer com Kamasutra" />
   <meta name="twitter:description" content="Timer Pomodoro com sugestões de posições do Kamasutra para uma experiência única." />
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1200" />
   
   <!-- Additional Meta Tags -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#4A1D96" />
-  <meta name="author" content="Kama-Doro" />
+  <meta name="author" content="Maikon Weber de Carvalho" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://kama-doro.com" />
+  <link rel="canonical" href="https://sexpomodoro.com.br" />
   
   <!-- PWA Tags -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -538,42 +471,17 @@
     ></div>
   </div>
 
-  <!-- Adicione este botão onde desejar na interface -->
-  <button
+  <!-- Link para Kamasutra Dado -->
+  <a
+    href="https://kamasutra-dado.com"
+    target="_blank"
     class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
            shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
-           hover:scale-105 transition-all duration-500"
-    on:click={rollDice}
-    disabled={isRolling}
+           hover:scale-105 transition-all duration-500 block text-center mt-8"
+    on:mouseenter={() => playSound(hoverSound)}
   >
-    {#if isRolling}
-      <span class="animate-pulse">Rolando...</span>
-    {:else}
-      Rolar Dado
-    {/if}
-  </button>
-
-  <!-- Mostre as posições do dado em um grid -->
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-    {#each dicePositions as position}
-      <div class="glass-card p-4 rounded-xl {currentDicePosition?.name === position.name ? 'ring-2 ring-pink-500' : ''}">
-        {#if position.imageUrl}
-          <img src={position.imageUrl} alt={position.name} class="w-full h-48 object-cover rounded-lg mb-4" />
-        {/if}
-        <h3 class="text-xl font-bold text-white">{position.name}</h3>
-        <p class="text-white/80">{position.description}</p>
-      </div>
-    {/each}
-  </div>
-
-  <!-- Botão para atualizar as posições do dado -->
-  <button
-    class="glass-button-alt mt-4 px-6 py-3 rounded-full text-white/90"
-    on:click={refreshDicePositions}
-    disabled={loading}
-  >
-    {loading ? 'Atualizando...' : 'Novas Posições'}
-  </button>
+    Kamasutra Dado
+  </a>
 </div>
 
 <style lang="postcss">
