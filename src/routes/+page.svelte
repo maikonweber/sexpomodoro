@@ -325,18 +325,7 @@
         >
           Raspadinha
         </a>
-<<<<<<< HEAD
-        <a
-          href="/shop"
-          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
-          on:mouseenter={() => playSound(hoverSound)}
-        >
-          Shop
-        </a>
-      </nav>
-=======
       </div>
->>>>>>> parent of 52cb6dc (Add banner and product shop)
     </div>
   </div>
 
@@ -503,63 +492,6 @@
       </div>
     </div>
 
-<<<<<<< HEAD
-    <!-- Indicador de Progresso -->
-    <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
-      <div
-        class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
-        style="width: {((selectedMinutes * 60 - time) / (selectedMinutes * 60)) * 100}%"
-      ></div>
-    </div>
-
-    <!-- Banner de Produtos Afiliados -->
-    <div class="mt-12 mb-24">
-      <div class="glass-container p-4 md:p-8 rounded-3xl">
-        <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-          Produtos Recomendados
-        </h2>
-        
-        {#if $products.length > 0}
-          <div class="relative">
-            {#each $products as product, index}
-              {#if index === $currentProductIndex}
-                <div 
-                  class="glass-card group p-6 rounded-2xl transition-all duration-500 animate-fade-in"
-                  in:fade={{ duration: 500 }}
-                  out:fade={{ duration: 500 }}
-                >
-                  <div class="relative h-48 mb-4 overflow-hidden rounded-xl">
-                    <img 
-                      src={product.imageUrl} 
-                      alt={product.name}
-                      class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <h3 class="text-lg font-bold text-white mb-2">{product.name}</h3>
-                  <p class="text-white/80 text-sm mb-4">{product.description}</p>
-                  <div class="flex justify-between items-center">
-                    <span class="text-pink-400 font-bold">R$ {product.price.toFixed(2)}</span>
-                    <span class="text-white/60 text-sm">Amazon</span>
-                  </div>
-                  <a 
-                    href={product.affiliateLink}
-                    target="_blank"
-                    class="absolute inset-0"
-                    on:mouseenter={() => playSound(hoverSound)}
-                  ></a>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        {:else}
-          <div class="flex items-center justify-center py-16">
-            <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin" role="progressbar" aria-label="Carregando produtos..."></div>
-          </div>
-        {/if}
-      </div>
-    </div>
-  </main>
-=======
   <!-- Indicador de Progresso -->
   <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
     <div
@@ -578,7 +510,6 @@
   >
     Kamasutra Dado
   </a>
->>>>>>> parent of 52cb6dc (Add banner and product shop)
 </div>
 
 <style lang="postcss">
@@ -652,76 +583,4 @@
   .glass-card:hover {
     box-shadow: 0 0 70px rgba(236, 72, 153, 0.3);
   }
-<<<<<<< HEAD
-
-  /* Animação de fade para o banner rotativo */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Adicione estas classes ao seu CSS existente */
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Ajuste o padding para mobile */
-  @media (max-width: 640px) {
-    main {
-      @apply px-2 pt-16;
-    }
-
-    .glass-container {
-      @apply p-3 rounded-xl;
-    }
-
-    .glass-button-outline {
-      @apply text-xs px-2 py-1;
-    }
-
-    h1 {
-      @apply text-2xl;
-    }
-
-    h2 {
-      @apply text-xl;
-    }
-
-    .timer-container {
-      @apply w-48 h-48;
-    }
-
-    .timer-display {
-      @apply text-4xl;
-    }
-  }
-
-  /* Fix para iOS */
-  @supports (-webkit-touch-callout: none) {
-    .min-h-screen {
-      min-height: -webkit-fill-available;
-    }
-  }
-
-  /* Otimizações de scroll */
-  :global(body) {
-    @apply overflow-x-hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Melhorias de performance */
-  * {
-    @apply transform-gpu;
-  }
-=======
->>>>>>> parent of 52cb6dc (Add banner and product shop)
 </style>
