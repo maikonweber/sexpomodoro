@@ -188,11 +188,13 @@
   
     let diceSound: HTMLAudioElement;
     let selectSound: HTMLAudioElement;
+    let hoverSound: HTMLAudioElement;
   
     onMount(() => {
       Notification.requestPermission();
       diceSound = new Audio('../sounds/dice-roll.mp3');
       selectSound = new Audio('../sounds/select.mp3');
+      hoverSound = new Audio('../sounds/hover.mp3');
       
       checkMobile();
       window.addEventListener('resize', checkMobile);
@@ -275,10 +277,40 @@
     }
   </script>
   
-  <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 pb-32 backdrop-blur-md relative">
-    <!-- Botão de Som - Ajustado para mobile -->
+  <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 backdrop-blur-md">
+    <!-- Barra de Navegação -->
+    <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-4">
+        <h1 class="text-white/80 text-xl font-medium"> Sex Pomodoro </h1>
+        <div class="flex gap-4">
+          <a
+            href="/"
+            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+            on:mouseenter={() => playSound(hoverSound)}
+          >
+            Timer
+          </a>
+          <a
+            href="/kamasutra-dado"
+            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+            on:mouseenter={() => playSound(hoverSound)}
+          >
+            Kamasutra Dado
+          </a>
+          <a
+            href="/raspadinha"
+            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+            on:mouseenter={() => playSound(hoverSound)}
+          >
+            Raspadinha
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão de Som -->
     <button
-      class="fixed top-2 right-2 md:top-4 md:right-4 z-50 glass-button-outline p-2 md:p-3 rounded-full"
+      class="fixed top-20 right-2 md:top-24 md:right-4 z-50 glass-button-outline p-2 md:p-3 rounded-full"
       on:click={() => isMuted = !isMuted}
     >
       {#if isMuted}
@@ -293,7 +325,7 @@
       {/if}
     </button>
 
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-6xl mx-auto pt-24">
       <div class="glass-container p-4 md:p-8 rounded-3xl mb-24">
         <!-- Título responsivo -->
         <h1 class="font-display text-4xl md:text-7xl font-bold text-center mb-8 md:mb-12 animate-gradient">
