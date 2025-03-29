@@ -305,41 +305,41 @@
   <meta name="apple-mobile-web-app-title" content="Kama-Doro" />
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 backdrop-blur-md">
+<div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative">
   <!-- Barra de Navegação -->
   <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
-    <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-4">
+    <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">
       <h1 class="text-white/80 text-lg md:text-xl font-medium whitespace-nowrap">Kama-Doro</h1>
-      <div class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
+      <nav class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
         <a
           href="/"
-          class="glass-button-outline px-2 md:px-4 py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
           on:mouseenter={() => playSound(hoverSound)}
         >
           Timer
         </a>
         <a
           href="/kamasutra-dado"
-          class="glass-button-outline px-2 md:px-4 py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
           on:mouseenter={() => playSound(hoverSound)}
         >
           K.Dado
         </a>
         <a
           href="/raspadinha"
-          class="glass-button-outline px-2 md:px-4 py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
           on:mouseenter={() => playSound(hoverSound)}
         >
           Raspadinha
         </a>
         <a
           href="/shop"
-          class="glass-button-outline px-2 md:px-4 py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
           on:mouseenter={() => playSound(hoverSound)}
         >
           Shop
         </a>
-      </div>
+      </nav>
     </div>
   </div>
 
@@ -360,7 +360,7 @@
     {/if}
   </button>
 
-  <div class="max-w-6xl mx-auto pt-24">
+  <main class="max-w-6xl mx-auto px-2 md:px-4 pt-20 md:pt-24 pb-24">
     <!-- Banner -->
     <div class="glass-container mb-4 md:mb-8 overflow-hidden {isMobile ? 'sticky top-0 z-40' : ''}">
       <a href="https://erecaoduradoura.com.br" 
@@ -505,62 +505,62 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Indicador de Progresso -->
-  <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
-    <div
-      class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
-      style="width: {((selectedMinutes * 60 - time) / (selectedMinutes * 60)) * 100}%"
-    ></div>
-  </div>
-
-  <!-- Banner de Produtos Afiliados -->
-  <div class="mt-12 mb-24">
-    <div class="glass-container p-4 md:p-8 rounded-3xl">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-        Produtos Recomendados
-      </h2>
-      
-      {#if $products.length > 0}
-        <div class="relative">
-          {#each $products as product, index}
-            {#if index === $currentProductIndex}
-              <div 
-                class="glass-card group p-6 rounded-2xl transition-all duration-500 animate-fade-in"
-                in:fade={{ duration: 500 }}
-                out:fade={{ duration: 500 }}
-              >
-                <div class="relative h-48 mb-4 overflow-hidden rounded-xl">
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.name}
-                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">{product.name}</h3>
-                <p class="text-white/80 text-sm mb-4">{product.description}</p>
-                <div class="flex justify-between items-center">
-                  <span class="text-pink-400 font-bold">R$ {product.price.toFixed(2)}</span>
-                  <span class="text-white/60 text-sm">Amazon</span>
-                </div>
-                <a 
-                  href={product.affiliateLink}
-                  target="_blank"
-                  class="absolute inset-0"
-                  on:mouseenter={() => playSound(hoverSound)}
-                ></a>
-              </div>
-            {/if}
-          {/each}
-        </div>
-      {:else}
-        <div class="flex items-center justify-center py-16">
-          <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin" role="progressbar" aria-label="Carregando produtos..."></div>
-        </div>
-      {/if}
+    <!-- Indicador de Progresso -->
+    <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
+      <div
+        class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
+        style="width: {((selectedMinutes * 60 - time) / (selectedMinutes * 60)) * 100}%"
+      ></div>
     </div>
-  </div>
+
+    <!-- Banner de Produtos Afiliados -->
+    <div class="mt-12 mb-24">
+      <div class="glass-container p-4 md:p-8 rounded-3xl">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+          Produtos Recomendados
+        </h2>
+        
+        {#if $products.length > 0}
+          <div class="relative">
+            {#each $products as product, index}
+              {#if index === $currentProductIndex}
+                <div 
+                  class="glass-card group p-6 rounded-2xl transition-all duration-500 animate-fade-in"
+                  in:fade={{ duration: 500 }}
+                  out:fade={{ duration: 500 }}
+                >
+                  <div class="relative h-48 mb-4 overflow-hidden rounded-xl">
+                    <img 
+                      src={product.imageUrl} 
+                      alt={product.name}
+                      class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <h3 class="text-lg font-bold text-white mb-2">{product.name}</h3>
+                  <p class="text-white/80 text-sm mb-4">{product.description}</p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-pink-400 font-bold">R$ {product.price.toFixed(2)}</span>
+                    <span class="text-white/60 text-sm">Amazon</span>
+                  </div>
+                  <a 
+                    href={product.affiliateLink}
+                    target="_blank"
+                    class="absolute inset-0"
+                    on:mouseenter={() => playSound(hoverSound)}
+                  ></a>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {:else}
+          <div class="flex items-center justify-center py-16">
+            <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin" role="progressbar" aria-label="Carregando produtos..."></div>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </main>
 </div>
 
 <style lang="postcss">
@@ -657,8 +657,50 @@
 
   /* Ajuste o padding para mobile */
   @media (max-width: 640px) {
+    main {
+      @apply px-2 pt-16;
+    }
+
+    .glass-container {
+      @apply p-3 rounded-xl;
+    }
+
     .glass-button-outline {
       @apply text-xs px-2 py-1;
     }
+
+    h1 {
+      @apply text-2xl;
+    }
+
+    h2 {
+      @apply text-xl;
+    }
+
+    .timer-container {
+      @apply w-48 h-48;
+    }
+
+    .timer-display {
+      @apply text-4xl;
+    }
+  }
+
+  /* Fix para iOS */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+
+  /* Otimizações de scroll */
+  :global(body) {
+    @apply overflow-x-hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Melhorias de performance */
+  * {
+    @apply transform-gpu;
   }
 </style>
