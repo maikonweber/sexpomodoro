@@ -304,6 +304,13 @@
           >
             Raspadinha
           </a>
+          <a
+            href="/shop"
+            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+            on:mouseenter={() => playSound(hoverSound)}
+          >
+            Shop
+          </a>
         </div>
       </div>
     </div>

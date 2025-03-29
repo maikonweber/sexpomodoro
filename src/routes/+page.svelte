@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { tasks, timeLeft, isRunning as storeIsRunning, currentTask } from './store/store';
+  import { products, currentProductIndex, fetchProducts, rotateProduct } from './store/products';
 
   interface Task {
     id: number;
@@ -239,9 +240,15 @@
         fetchRandomPosition();
         lastSelectedMinutes = selectedMinutes;
 
+        // Inicializa os produtos
+        await fetchProducts();
+        
+        // Inicia a rotação dos produtos
+        setInterval(rotateProduct, 5000); // Muda a cada 5 segundos
+
         Notification.requestPermission();
       } catch (err) {
-        console.error('Erro ao inicializar sons:', err);
+        console.error('Erro ao inicializar:', err);
       }
     })();
     
@@ -324,6 +331,13 @@
           on:mouseenter={() => playSound(hoverSound)}
         >
           Raspadinha
+        </a>
+        <a
+          href="/shop"
+          class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+          on:mouseenter={() => playSound(hoverSound)}
+        >
+          Shop
         </a>
       </div>
     </div>
@@ -501,16 +515,52 @@
     ></div>
   </div>
 
-  <!-- Link para Kamasutra Dado -->
-  <a
-    href="/kamasutra-dado"
-    class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
-           shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
-           hover:scale-105 transition-all duration-500 block text-center mt-8"
-    on:mouseenter={() => playSound(hoverSound)}
-  >
-    Kamasutra Dado
-  </a>
+  <!-- Banner de Produtos Afiliados -->
+  <div class="mt-12 mb-24">
+    <div class="glass-container p-4 md:p-8 rounded-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+        Produtos Recomendados
+      </h2>
+      
+      {#if $products.length > 0}
+        <div class="relative">
+          {#each $products as product, index}
+            {#if index === $currentProductIndex}
+              <div 
+                class="glass-card group p-6 rounded-2xl transition-all duration-500 animate-fade-in"
+                in:fade={{ duration: 500 }}
+                out:fade={{ duration: 500 }}
+              >
+                <div class="relative h-48 mb-4 overflow-hidden rounded-xl">
+                  <img 
+                    src={product.imageUrl} 
+                    alt={product.name}
+                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">{product.name}</h3>
+                <p class="text-white/80 text-sm mb-4">{product.description}</p>
+                <div class="flex justify-between items-center">
+                  <span class="text-pink-400 font-bold">R$ {product.price.toFixed(2)}</span>
+                  <span class="text-white/60 text-sm">Amazon</span>
+                </div>
+                <a 
+                  href={product.affiliateLink}
+                  target="_blank"
+                  class="absolute inset-0"
+                  on:mouseenter={() => playSound(hoverSound)}
+                ></a>
+              </div>
+            {/if}
+          {/each}
+        </div>
+      {:else}
+        <div class="flex items-center justify-center py-16">
+          <div class="w-12 h-12 border-4 border-pink-400 border-t-transparent rounded-full animate-spin" role="progressbar" aria-label="Carregando produtos..."></div>
+        </div>
+      {/if}
+    </div>
+  </div>
 </div>
 
 <style lang="postcss">
@@ -583,5 +633,15 @@
 
   .glass-card:hover {
     box-shadow: 0 0 70px rgba(236, 72, 153, 0.3);
+  }
+
+  /* Animação de fade para o banner rotativo */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
