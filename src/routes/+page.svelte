@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { tasks, timeLeft, isRunning as storeIsRunning, currentTask } from './store/store';
-  import { products, currentProductIndex, fetchProducts, rotateProduct } from './store/products';
 
   interface Task {
     id: number;
@@ -240,15 +239,9 @@
         fetchRandomPosition();
         lastSelectedMinutes = selectedMinutes;
 
-        // Inicializa os produtos
-        await fetchProducts();
-        
-        // Inicia a rotação dos produtos
-        setInterval(rotateProduct, 5000); // Muda a cada 5 segundos
-
         Notification.requestPermission();
       } catch (err) {
-        console.error('Erro ao inicializar:', err);
+        console.error('Erro ao inicializar sons:', err);
       }
     })();
     
@@ -332,6 +325,7 @@
         >
           Raspadinha
         </a>
+<<<<<<< HEAD
         <a
           href="/shop"
           class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
@@ -340,6 +334,9 @@
           Shop
         </a>
       </nav>
+=======
+      </div>
+>>>>>>> parent of 52cb6dc (Add banner and product shop)
     </div>
   </div>
 
@@ -506,6 +503,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Indicador de Progresso -->
     <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
       <div
@@ -561,6 +559,26 @@
       </div>
     </div>
   </main>
+=======
+  <!-- Indicador de Progresso -->
+  <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
+    <div
+      class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
+      style="width: {((selectedMinutes * 60 - time) / (selectedMinutes * 60)) * 100}%"
+    ></div>
+  </div>
+
+  <!-- Link para Kamasutra Dado -->
+  <a
+    href="/kamasutra-dado"
+    class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
+           shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
+           hover:scale-105 transition-all duration-500 block text-center mt-8"
+    on:mouseenter={() => playSound(hoverSound)}
+  >
+    Kamasutra Dado
+  </a>
+>>>>>>> parent of 52cb6dc (Add banner and product shop)
 </div>
 
 <style lang="postcss">
@@ -634,6 +652,7 @@
   .glass-card:hover {
     box-shadow: 0 0 70px rgba(236, 72, 153, 0.3);
   }
+<<<<<<< HEAD
 
   /* Animação de fade para o banner rotativo */
   .animate-fade-in {
@@ -703,4 +722,6 @@
   * {
     @apply transform-gpu;
   }
+=======
+>>>>>>> parent of 52cb6dc (Add banner and product shop)
 </style>
