@@ -325,7 +325,7 @@
         >
           Raspadinha
         </a>
-      </div>
+      </nav>
     </div>
   </div>
 
