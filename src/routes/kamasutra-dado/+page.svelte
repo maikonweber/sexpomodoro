@@ -1,74 +1,88 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { tasks, timeLeft, isRunning as storeIsRunning, currentTask } from '../store/store';
-  
+
+    interface Categoria {
+        id: number;
+        tipo: string[];
+        estimulacao: string[];
+        penetracao: string[];
+        caricias: string[];
+        localizacao: string[];
+        atividade: string[];
+        complexidade: string[];
+    }
+
+    interface CategoriaPosition {
+        id: number;
+        kamasutra_position_id: number;
+        categoria_id: number;
+        categoria: Categoria;
+    }
+
+    interface KamasutraPosition {
+        id: number;
+        name: string;
+        url: string;
+        ref_number: number;
+        descricao: string;
+        dificulty: string;
+        categorias: CategoriaPosition[];
+    }
+
+    interface Position {
+        name: string;
+        description: string;
+        image: string;
+    }
+
     let newTaskInput = '';
-    let timer: number;
-    let selectedMinutes = 25;
+    let timer: ReturnType<typeof setInterval>;
+    const selectedMinutes = 25;
     let time = selectedMinutes * 60;
     let isRunning = false;
   
-    let selectedPositions: Array<{ name: string; description: string; image: string }> = [];
-    let currentPosition = null;
+    let selectedPositions: KamasutraPosition[] = [];
+    let currentPosition: KamasutraPosition | null = null;
     let isRolling = false;
-  
     let showModal = false;
-  
-    const allPositions = [
-      {
-        name: 'Lotus',
-        description: 'Uma posição relaxante e íntima para conexão profunda',
-        image: 'https://images.unsplash.com/photo-1578876816633-5b1749e8d02b?q=80&w=400'
-      },
-      {
-        name: 'Borboleta',
-        description: 'Posição delicada e romântica para momentos suaves',
-        image: 'https://images.unsplash.com/photo-1564710589537-28d89165f99c?q=80&w=400'
-      },
-      {
-        name: 'Lua Crescente',
-        description: 'Perfeita para momentos especiais e românticos',
-        image: 'https://images.unsplash.com/photo-1532767153582-b1a0e5145009?q=80&w=400'
-      },
-      {
-        name: 'Ponte',
-        description: 'Uma posição desafiadora e excitante para explorar',
-        image: 'https://images.unsplash.com/photo-1506967726964-da9127fdec36?q=80&w=400'
-      },
-      {
-        name: 'Tigre',
-        description: 'Posição intensa e apaixonada para momentos ardentes',
-        image: 'https://images.unsplash.com/photo-1590767950092-42b8362368da?q=80&w=400'
-      },
-      {
-        name: 'Cascata',
-        description: 'Fluidez e prazer em movimentos suaves',
-        image: 'https://images.unsplash.com/photo-1498598457418-36ef20772bb9?q=80&w=400'
-      },
-      {
-        name: 'Fênix',
-        description: 'Renascimento da paixão em uma posição elevada',
-        image: 'https://images.unsplash.com/photo-1495954484750-af469f2f9be5?q=80&w=400'
-      },
-      {
-        name: 'Dragão',
-        description: 'Força e dominância em perfeita harmonia',
-        image: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=400'
-      },
-      {
-        name: 'Oceano',
-        description: 'Movimentos ondulantes como as ondas do mar',
-        image: 'https://images.unsplash.com/photo-1518049362265-d5b2a6467637?q=80&w=400'
-      },
-      {
-        name: 'Montanha',
-        description: 'Estabilidade e força em uma posição elevada',
-        image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=400'
-      }
-    ];
+    let loading = false;
+    let error = '';
+    let isMuted = false;
+    let isMobile = false;
+
+    async function fetchKamasutraPositions(): Promise<KamasutraPosition[]> {
+        loading = true;
+        error = '';
+        try {
+            const response = await fetch('https://dev.muttercorp.com.br/kamasutra', {
+                headers: {
+                    'accept': '*/*'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Falha ao carregar posições');
+            }
+            
+            return await response.json();
+        } catch (err) {
+            console.error('Erro ao buscar posições:', err);
+            error = 'Erro ao carregar posições. Tente novamente mais tarde.';
+            return [];
+        } finally {
+            loading = false;
+        }
+    }
+
+    let allPositions: KamasutraPosition[] = [];
+
+    onMount(async () => {
+        allPositions = await fetchKamasutraPositions();
+    });
   
     // Format time for display
-    const formatTime = (seconds) => {
+    const formatTime = (seconds: number): string => {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
       return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
@@ -105,8 +119,10 @@
     }
   
     function changePosition() {
-      const randomIndex = Math.floor(Math.random() * allPositions.length);
-      currentPosition = allPositions[randomIndex];
+      if (allPositions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * allPositions.length);
+        currentPosition = allPositions[randomIndex];
+      }
     }
   
     // Task Management
@@ -122,7 +138,7 @@
       }
     }
   
-    function toggleTask(id) {
+    function toggleTask(id: number) {
       tasks.update(t =>
         t.map(task =>
           task.id === id ? { ...task, completed: !task.completed } : task
@@ -130,19 +146,19 @@
       );
     }
   
-    function deleteTask(id) {
+    function deleteTask(id: number) {
       tasks.update(t => t.filter(task => task.id !== id));
       if ($currentTask === id) {
         currentTask.set(null);
       }
     }
   
-    function selectTask(id) {
+    function selectTask(id: number) {
       currentTask.set(id);
       resetTimer();
     }
   
-    function incrementPomodoro(id) {
+    function incrementPomodoro(id: number) {
       tasks.update(t =>
         t.map(task =>
           task.id === id ? { ...task, pomodoros: task.pomodoros + 1 } : task
@@ -154,7 +170,7 @@
     function notify() {
       if (Notification.permission === "granted") {
         new Notification("Pomodoro Completed!", {
-          body: "Time to take a break and change position to: " + currentPosition.name,
+          body: `Time to take a break and change position to: ${currentPosition?.name}`,
         });
         if ($currentTask) {
           incrementPomodoro($currentTask);
@@ -162,7 +178,7 @@
       }
     }
   
-    function togglePosition(position) {
+    function togglePosition(position: KamasutraPosition) {
       if (selectedPositions.some(p => p.name === position.name)) {
         selectedPositions = selectedPositions.filter(p => p.name !== position.name);
       } else {
@@ -172,8 +188,6 @@
   
     let diceSound: HTMLAudioElement;
     let selectSound: HTMLAudioElement;
-    let isMuted = false;
-    let isMobile = false;
   
     onMount(() => {
       Notification.requestPermission();
@@ -200,14 +214,60 @@
       }
     }
   
-    function rollDice() {
-      playSound(diceSound);
-      isRolling = true;
-      showModal = true;
-      setTimeout(() => {
-        changePosition();
-        isRolling = false;
-      }, 1000);
+    async function fetchKamasutraPosition(id: number): Promise<KamasutraPosition | null> {
+        try {
+            const response = await fetch(`https://dev.muttercorp.com.br/kamasutra/${id}`, {
+                headers: {
+                    'accept': '*/*'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Falha ao carregar posição');
+            }
+            
+            return await response.json();
+        } catch (err) {
+            console.error('Erro ao buscar posição:', err);
+            return null;
+        }
+    }
+  
+    async function rollDice() {
+        if (selectedPositions.length < 6) return;
+        
+        playSound(diceSound);
+        isRolling = true;
+        showModal = true;
+
+        // Rola a página para o topo imediatamente
+        window.scrollTo(0, 0);
+
+        try {
+            // Seleciona uma posição aleatória das posições selecionadas
+            const randomIndex = Math.floor(Math.random() * selectedPositions.length);
+            const selectedPosition = selectedPositions[randomIndex];
+            console.log('Posição selecionada:', selectedPosition);
+
+            // Busca os detalhes completos da posição na API usando o ID da posição selecionada
+            const positionDetails = await fetchKamasutraPosition(selectedPosition.id);
+            console.log('Detalhes da posição:', positionDetails);
+            
+            if (positionDetails) {
+                currentPosition = positionDetails;
+                console.log('URL da imagem:', currentPosition.url);
+            } else {
+                // Fallback para a posição selecionada se a API falhar
+                currentPosition = selectedPosition;
+            }
+        } catch (error) {
+            console.error('Erro ao rolar o dado:', error);
+            // Fallback para uma posição aleatória das selecionadas em caso de erro
+            const fallbackIndex = Math.floor(Math.random() * selectedPositions.length);
+            currentPosition = selectedPositions[fallbackIndex];
+        } finally {
+            isRolling = false;
+        }
     }
   
     function closeModal() {
@@ -249,32 +309,59 @@
           
           <!-- Grid ajustado para mobile -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-8">
-            {#each allPositions as position}
-              <button
-                class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-105"
-                on:click={() => togglePosition(position)}
-              >
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50"></div>
-                <div class="absolute inset-0">
-                  <img
-                    src={position.image}
-                    alt={position.name}
-                    class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-500 scale-105"
-                  />
-                </div>
-                <div class="relative p-4 md:p-8 backdrop-blur-sm bg-white/5 h-full">
-                  <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2 md:mb-3">{position.name}</h3>
-                  <p class="text-white/90 text-base md:text-lg font-light">{position.description}</p>
-                  <div class="absolute top-4 right-4">
-                    {#if selectedPositions.some(p => p.name === position.name)}
-                      <span class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
-                        Selecionado
-                      </span>
-                    {/if}
+            {#if loading}
+              {#each Array(6) as _, i}
+                <div class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl animate-pulse">
+                  <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50"></div>
+                  <div class="relative p-4 md:p-8 backdrop-blur-sm bg-white/5 h-full">
+                    <div class="h-8 bg-white/10 rounded w-3/4 mb-4"></div>
+                    <div class="h-4 bg-white/10 rounded w-full mb-2"></div>
+                    <div class="h-4 bg-white/10 rounded w-5/6"></div>
                   </div>
                 </div>
-              </button>
-            {/each}
+              {/each}
+            {:else if error}
+              <div class="col-span-full text-center py-12">
+                <div class="glass-card p-8 rounded-2xl">
+                  <p class="text-white/90 text-xl mb-4">{error}</p>
+                  <button 
+                    class="glass-button-outline px-6 py-3 rounded-full"
+                    on:click={async () => {
+                      allPositions = await fetchKamasutraPositions();
+                    }}
+                  >
+                    Tentar Novamente
+                  </button>
+                </div>
+              </div>
+            {:else}
+              {#each allPositions as position}
+                <button
+                  class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-105"
+                  on:click={() => togglePosition(position)}
+                >
+                  <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50"></div>
+                  <div class="absolute inset-0">
+                    <img
+                      src={position.url}
+                      alt={position.name}
+                      class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-500 scale-105"
+                    />
+                  </div>
+                  <div class="relative p-4 md:p-8 backdrop-blur-sm bg-white/5 h-full">
+                    <h3 class="font-display text-xl md:text-2xl font-bold text-white mb-2 md:mb-3">{position.name}</h3>
+                    <p class="text-white/90 text-base md:text-lg font-light">{position.descricao}</p>
+                    <div class="absolute top-4 right-4">
+                      {#if selectedPositions.some(p => p.name === position.name)}
+                        <span class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                          Selecionado
+                        </span>
+                      {/if}
+                    </div>
+                  </div>
+                </button>
+              {/each}
+            {/if}
           </div>
         </div>
       </div>
@@ -308,26 +395,31 @@
     </div>
 
     <!-- Botão de Rolar - Ajustado para mobile -->
-    <div class="fixed bottom-0 left-0 right-0 z-40 p-2 md:p-4 bg-gradient-to-t from-slate-900 to-transparent h-20 md:h-24 flex items-center justify-center">
+    <div class="sticky bottom-8 right-8 float-right z-[100]">
       <button
         on:click={rollDice}
         disabled={selectedPositions.length < 6 || isRolling}
-        class="floating-button {selectedPositions.length >= 6 ? 'animate-bounce-subtle' : ''}"
+        class="floating-dice-button {selectedPositions.length >= 6 ? 'animate-bounce-subtle' : ''}"
+        aria-label="Rolar o dado"
       >
-        <span class="relative z-10">
-          {#if selectedPositions.length < 6}
+        <div class="relative">
+          <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-lg opacity-50"></div>
+          <div class="relative bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+            <svg class="w-8 h-8 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+        </div>
+        {#if selectedPositions.length < 6}
+          <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm text-white whitespace-nowrap">
             Selecione {6 - selectedPositions.length} posições
-          {:else if isRolling}
-            Rolando...
-          {:else}
-            Rolar o Dado
-          {/if}
-        </span>
+          </div>
+        {/if}
       </button>
     </div>
 
     <!-- Indicador de Progresso -->
-    <div class="fixed bottom-24 left-0 right-0 h-1 bg-white/10 z-30">
+    <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10 z-30">
       <div
         class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
         style="width: {(selectedPositions.length / 20) * 100}%"
@@ -337,7 +429,7 @@
     <!-- Modal do Resultado -->
     {#if showModal && currentPosition}
       <div 
-        class="fixed inset-0 flex items-center justify-center z-50" 
+        class="fixed inset-0 flex items-start justify-center z-[200] overflow-y-auto" 
         role="dialog"
         aria-modal="true"
         on:click={closeModal}
@@ -346,21 +438,34 @@
       >
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
         <div 
-          class="relative max-w-4xl w-full mx-4 modal-content"
+          class="relative max-w-4xl w-full mx-4 modal-content mt-8"
           role="document"
           on:click|stopPropagation
         >
-          <div class="relative overflow-hidden rounded-3xl">
-            <div class="absolute inset-0">
-              <img
-                src={currentPosition.image}
-                alt={currentPosition.name}
-                class="w-full h-full object-cover"
-              />
+          <div class="relative overflow-hidden rounded-3xl bg-black/50">
+            <div class="relative h-[60vh] min-h-[400px]">
+              {#if currentPosition.url}
+                <img
+                  src={currentPosition.url}
+                  alt={currentPosition.name}
+                  class="w-full h-full object-contain bg-black/30"
+                  loading="lazy"
+                  on:load={() => console.log('Imagem carregada com sucesso')}
+                  on:error={(e) => {
+                    console.error('Erro ao carregar imagem:', e);
+                    const img = e.currentTarget as HTMLImageElement;
+                    img.src = 'https://via.placeholder.com/800x600?text=Imagem+não+disponível';
+                  }}
+                />
+              {:else}
+                <div class="w-full h-full bg-gradient-to-br from-purple-900/50 to-pink-900/50 flex items-center justify-center">
+                  <span class="text-white/80 text-xl">Imagem não disponível</span>
+                </div>
+              {/if}
             </div>
-            <div class="relative p-12 backdrop-blur-md bg-gradient-to-b from-black/70 to-black/90">
+            <div class="relative p-12 backdrop-blur-md bg-gradient-to-b from-black/90 via-black/80 to-black/90">
               <button 
-                class="absolute top-4 right-4 text-white/80 hover:text-white"
+                class="absolute top-4 right-4 text-white/80 hover:text-white transition-colors duration-200"
                 on:click={closeModal}
                 aria-label="Fechar modal"
               >
@@ -368,12 +473,17 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
               </button>
-              <h2 class="font-display text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+              <h2 class="font-display text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 drop-shadow-lg">
                 {currentPosition.name}
               </h2>
-              <p class="text-white/90 text-2xl font-light leading-relaxed">
-                {currentPosition.description}
+              <p class="text-white text-2xl font-light leading-relaxed drop-shadow-lg whitespace-pre-line">
+                {currentPosition.descricao}
               </p>
+              <div class="mt-4 flex items-center gap-2">
+                <span class="text-white/80 text-sm">Dificuldade: {currentPosition.dificulty}</span>
+                <span class="text-white/80 text-sm">•</span>
+                <span class="text-white/80 text-sm">Ref: {currentPosition.ref_number}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -396,13 +506,29 @@
       animation: gradient 8s ease infinite;
     }
 
-    .floating-button {
-      @apply px-6 py-3 md:px-16 md:py-6 text-lg md:text-2xl rounded-xl md:rounded-2xl;
-      margin-bottom: 0.5rem;
+    .floating-dice-button {
+      @apply transition-all duration-300 transform hover:scale-110 focus:outline-none;
+      position: relative;
+      z-index: 100;
+    }
+
+    .floating-dice-button:disabled {
+      @apply opacity-50 cursor-not-allowed hover:scale-100;
     }
 
     .modal-content {
       animation: modalFadeIn 0.3s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
+      margin-top: 2rem;
+    }
+
+    .modal-content img {
+      transition: transform 0.3s ease;
+    }
+
+    .modal-content:hover img {
+      transform: scale(1.05);
     }
 
     .glass-container {
@@ -427,7 +553,7 @@
     @keyframes modalFadeIn {
       from {
         opacity: 0;
-        transform: scale(0.95) translateY(10px);
+        transform: scale(0.95) translateY(-10px);
       }
       to {
         opacity: 1;
@@ -442,8 +568,8 @@
     }
 
     @media (max-width: 360px) {
-      .floating-button {
-        @apply px-4 py-2 text-base;
+      .floating-dice-button {
+        @apply scale-90;
       }
 
       h1 {
@@ -472,8 +598,14 @@
         @apply text-lg;
       }
 
-      .floating-button {
-        margin-bottom: 1rem;
+      .floating-dice-button {
+        transform: scale(0.9);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .floating-dice-button {
+        transform: scale(1);
       }
     }
   </style>
