@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { tasks, timeLeft, isRunning as storeIsRunning, currentTask } from './store/store';
   import Header from './components/Header.svelte';
+	import AdultProductsBanner from './components/AdultProductsBanner.svelte';
 
   interface Task {
     id: number;
@@ -477,7 +478,8 @@
     ></div>
   </div>
 
- 
+
+  <AdultProductsBanner />
 </div>
 
 <style lang="postcss">

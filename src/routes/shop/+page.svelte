@@ -2,596 +2,84 @@
   import { onMount } from 'svelte';
   import Header from '../components/Header.svelte';
 
-  const data = {
-    "data": {
-      "productOfferV2": {
-        "nodes":  [
-        {
-          "productName": "K12 Alto-falante Bluetooth Karaoke com Microfone, Luzes LED e Diversão para Toda a Família",
-          "itemId": 22697316947,
-          "commissionRate": "0.03",
-          "commission": "1.0194",
-          "price": "33.98",
-          "sales": 2333,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-m0lw7vlp78u9d3",
-          "shopName": "YUMI CELL",
-          "productLink": "https://shopee.com.br/product/1025824477/22697316947",
-          "offerLink": "https://s.shopee.com.br/1B8brvSGMW",
-          "periodStartTime": 1665802800,
-          "periodEndTime": 32503651199,
-          "priceMin": "33.98",
-          "priceMax": "49.98",
-          "productCatIds": [
-            100535,
-            100582,
-            100625
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 60,
-          "shopId": 1025824477,
-          "shopType": [],
-          "sellerCommissionRate": "0",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit 13 Pçs Pincéis De Maquiagem Contorno Kabuki Profissional",
-          "itemId": 20097410950,
-          "commissionRate": "0.08",
-          "commission": "1.0952",
-          "price": "13.69",
-          "sales": 2314,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rble-lm3rmq41uguoa6",
-          "shopName": "Mini Rosa",
-          "productLink": "https://shopee.com.br/product/399255895/20097410950",
-          "offerLink": "https://s.shopee.com.br/10pBfcSthV",
-          "periodStartTime": 1711519860,
-          "periodEndTime": 32503651199,
-          "priceMin": "13.69",
-          "priceMax": "13.69",
-          "productCatIds": [
-            100630,
-            100663,
-            100885
-          ],
-          "ratingStar": "4.6",
-          "priceDiscountRate": 54,
-          "shopId": 399255895,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.05",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Inox Prata Torneira com chuveiro com rotação de 360° Cozinha Luxo Parede Promoção",
-          "itemId": 23197701909,
-          "commissionRate": "0.15",
-          "commission": "4.1985",
-          "price": "27.99",
-          "sales": 7083,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lyog4l1ocm690d",
-          "shopName": "FAST MO",
-          "productLink": "https://shopee.com.br/product/530370669/23197701909",
-          "offerLink": "https://s.shopee.com.br/qVlTJTX2U",
-          "periodStartTime": 1726918980,
-          "periodEndTime": 32503651199,
-          "priceMin": "27.99",
-          "priceMax": "45.99",
-          "productCatIds": [
-            100636,
-            100715,
-            101188
-          ],
-          "ratingStar": "4.7",
-          "priceDiscountRate": 77,
-          "shopId": 530370669,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.12",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Lençol Com Elástico Avulso 400 Fios Micropercal Poliéster Liso Toque Macio",
-          "itemId": 22997623488,
-          "commissionRate": "0.11",
-          "commission": "2.156",
-          "price": "19.6",
-          "sales": 7122,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lxactdip6lx2ed",
-          "shopName": "Rech Enxovais",
-          "productLink": "https://shopee.com.br/product/746089778/22997623488",
-          "offerLink": "https://s.shopee.com.br/gCLH0UANT",
-          "periodStartTime": 1722547096,
-          "periodEndTime": 32503651199,
-          "priceMin": "19.6",
-          "priceMax": "32.5",
-          "productCatIds": [
-            100636,
-            100710,
-            101148
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 40,
-          "shopId": 746089778,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.08",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Videogame Stick 10mil 2 Controles Sem Fio Console  Portatil Jogos Retro Antigo",
-          "itemId": 23707678384,
-          "commissionRate": "0.07",
-          "commission": "6.5793",
-          "price": "93.99",
-          "sales": 3847,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rd5o-lx71dpls5spr1f",
-          "shopName": "ANJ.GG store",
-          "productLink": "https://shopee.com.br/product/391739739/23707678384",
-          "offerLink": "https://s.shopee.com.br/1qOIf9Pj0i",
-          "periodStartTime": 1712079214,
-          "periodEndTime": 32503651199,
-          "priceMin": "93.99",
-          "priceMax": "93.99",
-          "productCatIds": [
-            100634,
-            100695,
-            101081
-          ],
-          "ratingStar": "4.7",
-          "priceDiscountRate": 53,
-          "shopId": 391739739,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.04",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit 2 Óleos Extraordinarios para Cabelos Elseve Loreal Paris, 100ml",
-          "itemId": 18627997750,
-          "commissionRate": "0.21",
-          "commission": "20.2944",
-          "price": "96.64",
-          "sales": 3896,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lzp75go4xjc532",
-          "shopName": "L'Oréal Paris Loja Oficial",
-          "productLink": "https://shopee.com.br/product/689225278/18627997750",
-          "offerLink": "https://s.shopee.com.br/1g4sSqQMLh",
-          "periodStartTime": 1741274880,
-          "periodEndTime": 1743476399,
-          "priceMin": "96.64",
-          "priceMax": "96.64",
-          "productCatIds": [
-            100630,
-            100659,
-            100871
-          ],
-          "ratingStar": "5",
-          "priceDiscountRate": 20,
-          "shopId": 689225278,
-          "shopType": [
-            1
-          ],
-          "sellerCommissionRate": "0.18",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Escova De Limpeza Ajustável Janela Banheiro e Cozinha Ferramenta 3 em 1 Recarregável",
-          "itemId": 20797473907,
-          "commissionRate": "0.09",
-          "commission": "7.1991",
-          "price": "79.99",
-          "sales": 6640,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lqp8s8f2ez2bc0",
-          "shopName": "DAFUSHOP_brasil",
-          "productLink": "https://shopee.com.br/product/328666563/20797473907",
-          "offerLink": "https://s.shopee.com.br/1VlSGXQzgg",
-          "periodStartTime": 1723645566,
-          "periodEndTime": 32503651199,
-          "priceMin": "79.99",
-          "priceMax": "79.99",
-          "productCatIds": [
-            100636,
-            100716,
-            101201
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 68,
-          "shopId": 328666563,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.06",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Areia Catbio Biodegradável 4 Kg - Max Clean - Grãos Finos",
-          "itemId": 22996121313,
-          "commissionRate": "0.03",
-          "commission": "1.287",
-          "price": "42.9",
-          "sales": 10901,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-m605sjhkzmtse8",
-          "shopName": "petpremier",
-          "productLink": "https://shopee.com.br/product/1023760886/22996121313",
-          "offerLink": "https://s.shopee.com.br/1LS24ERd1f",
-          "periodStartTime": 1665802800,
-          "periodEndTime": 32503651199,
-          "priceMin": "42.9",
-          "priceMax": "42.9",
-          "productCatIds": [
-            100631,
-            100669,
-            100923
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 12,
-          "shopId": 1023760886,
-          "shopType": [],
-          "sellerCommissionRate": "0",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Coala Odorizante de Ambientes e Tecidos Chá Branco 260ML",
-          "itemId": 22692884559,
-          "commissionRate": "0.13",
-          "commission": "3.887",
-          "price": "29.9",
-          "sales": 11941,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rcby-lslpihaneuut25",
-          "shopName": "Coala Essências Oficial",
-          "productLink": "https://shopee.com.br/product/1177903362/22692884559",
-          "offerLink": "https://s.shopee.com.br/2VdzSNNBeu",
-          "periodStartTime": 1742156911,
-          "periodEndTime": 32503651199,
-          "priceMin": "29.9",
-          "priceMax": "29.9",
-          "productCatIds": [
-            100636,
-            100708,
-            101127
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 0,
-          "shopId": 1177903362,
-          "shopType": [
-            1
-          ],
-          "sellerCommissionRate": "0.1",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Máscara karseell De Colágeno 500g",
-          "itemId": 19797626536,
-          "commissionRate": "0.15",
-          "commission": "3.45",
-          "price": "23",
-          "sales": 2034,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lwlretvo6opef6",
-          "shopName": "Karseell Oficial",
-          "productLink": "https://shopee.com.br/product/1179613076/19797626536",
-          "offerLink": "https://s.shopee.com.br/2LKZG4Nozt",
-          "periodStartTime": 1712233922,
-          "periodEndTime": 32503651199,
-          "priceMin": "23",
-          "priceMax": "23",
-          "productCatIds": [
-            100630,
-            100659,
-            100871
-          ],
-          "ratingStar": "4.7",
-          "priceDiscountRate": 81,
-          "shopId": 1179613076,
-          "shopType": [],
-          "sellerCommissionRate": "0.12",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Calça Pantalona Alfaiataria Premium Wide Leg",
-          "itemId": 18297739619,
-          "commissionRate": "0.03",
-          "commission": "1.95",
-          "price": "65",
-          "sales": 10676,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lykuw0sz8isl32",
-          "shopName": "Raimbow",
-          "productLink": "https://shopee.com.br/product/1130464645/18297739619",
-          "offerLink": "https://s.shopee.com.br/2B193lOSKs",
-          "periodStartTime": 1665802800,
-          "periodEndTime": 32503651199,
-          "priceMin": "65",
-          "priceMax": "99",
-          "productCatIds": [
-            100017,
-            100100,
-            100358
-          ],
-          "ratingStar": "4.7",
-          "priceDiscountRate": 56,
-          "shopId": 1130464645,
-          "shopType": [],
-          "sellerCommissionRate": "0",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Escova Secadora Britânia 1300W Bivolt BES24P",
-          "itemId": 22698047796,
-          "commissionRate": "0.03",
-          "commission": "3.597",
-          "price": "119.9",
-          "sales": 785,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rd56-m7wuw9npi90583",
-          "shopName": "Bella Casa Eletro",
-          "productLink": "https://shopee.com.br/product/811879342/22698047796",
-          "offerLink": "https://s.shopee.com.br/20hirSP5fr",
-          "periodStartTime": 1665802800,
-          "periodEndTime": 32503651199,
-          "priceMin": "119.9",
-          "priceMax": "119.9",
-          "productCatIds": [
-            100630,
-            100663,
-            100889
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 45,
-          "shopId": 811879342,
-          "shopType": [
-            1
-          ],
-          "sellerCommissionRate": "0",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit 2 Travesseiro Pluma de Ganso Descanso Antiacaro 70x50cm",
-          "itemId": 19798930110,
-          "commissionRate": "0.14",
-          "commission": "5.1786",
-          "price": "36.99",
-          "sales": 9556,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rbki-ll9jwp6mt5ytad",
-          "shopName": "Alice Confecções",
-          "productLink": "https://shopee.com.br/product/301990718/19798930110",
-          "offerLink": "https://s.shopee.com.br/3AtgFbKeJ6",
-          "periodStartTime": 1733843400,
-          "periodEndTime": 32503651199,
-          "priceMin": "36.99",
-          "priceMax": "36.99",
-          "productCatIds": [
-            100636,
-            100710,
-            101147
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 41,
-          "shopId": 301990718,
-          "shopType": [],
-          "sellerCommissionRate": "0.11",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Base Mate Cobre Tudo 30ml Boca Rosa Beauty By Payot",
-          "itemId": 23497759778,
-          "commissionRate": "0.03",
-          "commission": "0.6798",
-          "price": "22.66",
-          "sales": 2156,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lzt12nkmvixh0c",
-          "shopName": "Beleza&chique",
-          "productLink": "https://shopee.com.br/product/340746999/23497759778",
-          "offerLink": "https://s.shopee.com.br/30aG3ILHe5",
-          "periodStartTime": 1665802800,
-          "periodEndTime": 32503651199,
-          "priceMin": "22.66",
-          "priceMax": "22.66",
-          "productCatIds": [
-            100630,
-            100662,
-            100881
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 52,
-          "shopId": 340746999,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Calça Pantalona Feminina Cintura Alta  Com Bolso Tecido Duna",
-          "itemId": 22697383155,
-          "commissionRate": "0.13",
-          "commission": "3.7687",
-          "price": "28.99",
-          "sales": 6700,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lsoi8287u0qj4d",
-          "shopName": "ElisJeans",
-          "productLink": "https://shopee.com.br/product/1157950131/22697383155",
-          "offerLink": "https://s.shopee.com.br/2qGpqzLuz4",
-          "periodStartTime": 1730827258,
-          "periodEndTime": 32503651199,
-          "priceMin": "28.99",
-          "priceMax": "28.99",
-          "productCatIds": [
-            100017,
-            100100,
-            100358
-          ],
-          "ratingStar": "4.7",
-          "priceDiscountRate": 74,
-          "shopId": 1157950131,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.1",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit facas de cozinha/Churrasco Profissional Antiaderente 6 Peças Preto/colorido",
-          "itemId": 23692960598,
-          "commissionRate": "0.07",
-          "commission": "1.1753",
-          "price": "16.79",
-          "sales": 7010,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rd4k-lu5etfkbmlecf4",
-          "shopName": "ZSZ_brasil",
-          "productLink": "https://shopee.com.br/product/390307022/23692960598",
-          "offerLink": "https://s.shopee.com.br/2fxPegMYK3",
-          "periodStartTime": 1722349380,
-          "periodEndTime": 32503651199,
-          "priceMin": "16.79",
-          "priceMax": "23.9",
-          "productCatIds": [
-            100636,
-            100717,
-            101228
-          ],
-          "ratingStar": "4.6",
-          "priceDiscountRate": 79,
-          "shopId": 390307022,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.04",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Prateleira Organizador Diamante Acrílico Porta Maquiagem Suporte Multiuso De Mesa",
-          "itemId": 19697632807,
-          "commissionRate": "0.11",
-          "commission": "3.0679",
-          "price": "27.89",
-          "sales": 3271,
-          "imageUrl": "https://cf.shopee.com.br/file/sg-11134201-7rce7-ls1p4g1owou3b1",
-          "shopName": "Isabela Top",
-          "productLink": "https://shopee.com.br/product/415175805/19697632807",
-          "offerLink": "https://s.shopee.com.br/3q9N2pI6xI",
-          "periodStartTime": 1737039183,
-          "periodEndTime": 32503651199,
-          "priceMin": "27.89",
-          "priceMax": "27.89",
-          "productCatIds": [
-            100636,
-            100721,
-            101258
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 69,
-          "shopId": 415175805,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.08",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit 7 Pecas Bolsa Organizadoras Para Mala Roupas Bagagem Viagem",
-          "itemId": 22719293954,
-          "commissionRate": "0.08",
-          "commission": "2.552",
-          "price": "31.9",
-          "sales": 7255,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lungd923nxqs3c",
-          "shopName": "RAJORK SHOP_BRASIL",
-          "productLink": "https://shopee.com.br/product/800287152/22719293954",
-          "offerLink": "https://s.shopee.com.br/3fpwqWIkIH",
-          "periodStartTime": 1730402612,
-          "periodEndTime": 32503651199,
-          "priceMin": "31.9",
-          "priceMax": "42.9",
-          "productCatIds": [
-            100015,
-            100087,
-            100325
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 71,
-          "shopId": 800287152,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.05",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Fone de Ouvido Sem Fio Airpods PRO 3 Com Cancelamento De Ruído Bluetooth Pop-Up para iOS e Android",
-          "itemId": 23597477899,
-          "commissionRate": "0.07",
-          "commission": "4.102",
-          "price": "58.6",
-          "sales": 7773,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-ly54dm79v8zk28",
-          "shopName": "Eliane Moreira da Silva",
-          "productLink": "https://shopee.com.br/product/966159843/23597477899",
-          "offerLink": "https://s.shopee.com.br/3VWWeDJNdG",
-          "periodStartTime": 1738839360,
-          "periodEndTime": 32503651199,
-          "priceMin": "58.6",
-          "priceMax": "59.9",
-          "productCatIds": [
-            100535,
-            100578,
-            0
-          ],
-          "ratingStar": "4.8",
-          "priceDiscountRate": 71,
-          "shopId": 966159843,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.04",
-          "shopeeCommissionRate": "0.03"
-        },
-        {
-          "productName": "Kit 10 Potes Vidro Hermético 1040ml Retangular 4 Travas Marmita Premium",
-          "itemId": 21899192645,
-          "commissionRate": "0.1",
-          "commission": "6.79",
-          "price": "67.9",
-          "sales": 3195,
-          "imageUrl": "https://cf.shopee.com.br/file/br-11134207-7r98o-lqw4b1nyjsb1e8",
-          "shopName": "UnyMix Home",
-          "productLink": "https://shopee.com.br/product/811924245/21899192645",
-          "offerLink": "https://s.shopee.com.br/3LD6RuK0yF",
-          "periodStartTime": 1713746591,
-          "periodEndTime": 32503651199,
-          "priceMin": "67.9",
-          "priceMax": "225.9",
-          "productCatIds": [
-            100636,
-            100717,
-            101220
-          ],
-          "ratingStar": "4.9",
-          "priceDiscountRate": 77,
-          "shopId": 811924245,
-          "shopType": [
-            2
-          ],
-          "sellerCommissionRate": "0.07",
-          "shopeeCommissionRate": "0.03"
-        }
-      ]
-      }
-    }
-  };
+  interface Product {
+    productName: string;
+    itemId: number;
+    price: string;
+    sales: number;
+    imageUrl: string;
+    shopName: string;
+    offerLink: string;
+    ratingStar: string;
+    priceDiscountRate: number;
+    // ... outros campos necessários ...
+  }
 
-
-
-
-  let products = data.data.productOfferV2.nodes;
+  let products: Product[] = [];
   let loading = false;
+  let currentPage = 1;
+  const LIMIT = 20;
   let isMuted = false;
   let hoverSound: HTMLAudioElement;
 
-  onMount(() => {
+  async function fetchOffers(page: number = 1) {
+    loading = true;
+    try {
+      const response = await fetch(
+        `https://dev.muttercorp.com.br/shopee-affiliate/offers?page=${page}&limit=${LIMIT}`,
+        {
+          headers: {
+            'accept': '*/*'
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar ofertas');
+      }
+
+      const data = await response.json();
+      return data.data.productOfferV2.nodes;
+    } catch (error) {
+      console.error('Erro ao carregar ofertas:', error);
+      return [];
+    } finally {
+      loading = false;
+    }
+  }
+
+  // Função para carregar mais produtos
+  async function loadMoreProducts() {
+    const newProducts = await fetchOffers(currentPage);
+    products = [...products, ...newProducts];
+    currentPage++;
+  }
+
+  onMount(async () => {
     hoverSound = new Audio('../sounds/hover.mp3');
+    await loadMoreProducts();
   });
+
+  // Adicione um observador de interseção para carregar mais produtos
+  let observer: IntersectionObserver;
+
+  function setupIntersectionObserver(node: Element) {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !loading) {
+          loadMoreProducts();
+        }
+      });
+    });
+
+    observer.observe(node);
+
+    return {
+      destroy() {
+        observer.disconnect();
+      }
+    };
+  }
 
   function playSound(sound: HTMLAudioElement) {
     if (!isMuted && sound) {
@@ -611,6 +99,13 @@
     return sales.toString();
   }
 </script>
+
+<!-- Loading Spinner -->
+{#if loading}
+  <div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-pink-500"></div>
+  </div>
+{/if}
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative overflow-x-hidden">
   <Header />
@@ -633,6 +128,8 @@
   </button>
 
   <main class="max-w-6xl mx-auto px-2 md:px-4 pt-24 pb-24">
+    <AdultProductsBanner />
+
     <!-- Banner -->
     <div class="glass-container mb-8 overflow-hidden">
       <div class="relative overflow-hidden rounded-xl md:rounded-2xl">
@@ -719,6 +216,12 @@
         </a>
       {/each}
     </div>
+
+    <!-- Elemento observador para scroll infinito -->
+    <div 
+      class="h-10 mt-8"
+      use:setupIntersectionObserver
+    ></div>
   </main>
 </div>
 
