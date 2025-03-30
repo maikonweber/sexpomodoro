@@ -279,34 +279,43 @@
   
   <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 backdrop-blur-md">
     <!-- Barra de Navegação -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
-      <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-4">
-        <h1 class="text-white/80 text-xl font-medium"> Sex Pomodoro </h1>
-        <div class="flex gap-4">
-          <a
-            href="/"
-            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
-            on:mouseenter={() => playSound(hoverSound)}
-          >
-            Timer
-          </a>
-          <a
-            href="/kamasutra-dado"
-            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
-            on:mouseenter={() => playSound(hoverSound)}
-          >
-            Kamasutra Dado
-          </a>
-          <a
-            href="/raspadinha"
-            class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
-            on:mouseenter={() => playSound(hoverSound)}
-          >
-            Raspadinha
-          </a>
-        </div>
-      </div>
+   <!-- Barra de Navegação -->
+   <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">
+      <h1 class="text-white/80 text-lg md:text-xl font-medium whitespace-nowrap"> Sex Pomodoro </h1>
+      <nav class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
+        <a
+          href="/"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          on:mouseenter={() => playSound(hoverSound)}
+        >
+          Timer
+        </a>
+        <a
+          href="/kamasutra-dado"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          on:mouseenter={() => playSound(hoverSound)}
+        >
+          K.Dado
+        </a>
+        <a
+          href="/raspadinha"
+          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+          on:mouseenter={() => playSound(hoverSound)}
+        >
+          Raspadinha
+        </a>
+
+        <a
+        href="/shop"
+        class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+        on:mouseenter={() => playSound(hoverSound)}
+      >
+        Shop
+      </a>
+      </nav>
     </div>
+  </div>
 
     <!-- Botão de Som -->
     <button
@@ -369,8 +378,9 @@
             {:else}
               {#each allPositions as position}
                 <button
-                  class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-105"
+                  class="glass-card group relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-105 w-full text-left"
                   on:click={() => togglePosition(position)}
+                  on:keydown={e => e.key === 'Enter' && togglePosition(position)}
                 >
                   <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50"></div>
                   <div class="absolute inset-0">
@@ -464,15 +474,17 @@
         class="fixed inset-0 flex items-start justify-center z-[200] overflow-y-auto" 
         role="dialog"
         aria-modal="true"
-        on:click={closeModal}
-        on:keydown={e => e.key === 'Escape' && closeModal()}
-        tabindex="-1"
       >
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        <button
+          class="absolute inset-0 bg-black/80 backdrop-blur-md"
+          on:click={closeModal}
+          on:keydown={e => e.key === 'Escape' && closeModal()}
+        >
+          <span class="sr-only">Fechar modal</span>
+        </button>
         <div 
           class="relative max-w-4xl w-full mx-4 modal-content mt-8"
           role="document"
-          on:click|stopPropagation
         >
           <div class="relative overflow-hidden rounded-3xl bg-black/50">
             <div class="relative h-[60vh] min-h-[400px]">

@@ -298,11 +298,11 @@
   <meta name="apple-mobile-web-app-title" content="Kama-Doro" />
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative">
+<div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative overflow-x-hidden">
   <!-- Barra de Navegação -->
   <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
     <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">
-      <h1 class="text-white/80 text-lg md:text-xl font-medium whitespace-nowrap">Kama-Doro</h1>
+      <h1 class="text-white/80 text-lg md:text-xl font-medium whitespace-nowrap"> Sex Pomodoro </h1>
       <nav class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
         <a
           href="/"
@@ -325,6 +325,14 @@
         >
           Raspadinha
         </a>
+
+        <a
+        href="/shop"
+        class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+        on:mouseenter={() => playSound(hoverSound)}
+      >
+        Shop
+      </a>
       </nav>
     </div>
   </div>
@@ -346,9 +354,9 @@
     {/if}
   </button>
 
-  <main class="max-w-6xl mx-auto px-2 md:px-4 pt-20 md:pt-24 pb-24">
+  <main class="max-w-6xl mx-auto px-2 md:px-4 pt-20 md:pt-24 pb-24 relative">
     <!-- Banner -->
-    <div class="glass-container mb-4 md:mb-8 overflow-hidden {isMobile ? 'sticky top-0 z-40' : ''}">
+    <div class="glass-container mb-4 md:mb-8 overflow-hidden">
       <a href="https://erecaoduradoura.com.br" 
          target="_blank"
          class="block relative group"
@@ -491,6 +499,7 @@
         </div>
       </div>
     </div>
+  </main>
 
   <!-- Indicador de Progresso -->
   <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10">
@@ -500,25 +509,27 @@
     ></div>
   </div>
 
-  <!-- Link para Kamasutra Dado -->
-  <a
-    href="/kamasutra-dado"
-    class="glass-button-outline px-8 py-4 md:px-12 md:py-6 rounded-full font-bold text-xl md:text-2xl text-white/90
-           shadow-[0_0_30px_rgba(236,72,153,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5)]
-           hover:scale-105 transition-all duration-500 block text-center mt-8"
-    on:mouseenter={() => playSound(hoverSound)}
-  >
-    Kamasutra Dado
-  </a>
+ 
 </div>
 
 <style lang="postcss">
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
   :global(body) {
-    @apply m-0 p-0;
+    @apply m-0 p-0 overflow-x-hidden;
     background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1200') center/cover fixed;
     font-family: 'Cinzel', serif;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  :global(html) {
+    height: -webkit-fill-available;
+  }
+
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
 
   .animate-gradient {
@@ -528,7 +539,7 @@
   }
 
   .glass-container {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 w-full max-w-full;
     box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
     transition: transform 0.3s ease;
   }
@@ -546,8 +557,7 @@
   }
 
   .glass-button-outline {
-    @apply bg-transparent border-2 border-white/20 backdrop-blur-md
-           hover:border-pink-500/50 hover:bg-white/5;
+    @apply bg-transparent border-2 border-white/20 backdrop-blur-md hover:border-pink-500/50 hover:bg-white/5 max-w-full;
   }
 
   .glass-select {
@@ -563,18 +573,6 @@
     @apply bg-slate-900 text-white;
   }
 
-  @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Animação suave para todos os elementos */
-  * {
-    @apply transition-all duration-300;
-  }
-
-  /* Melhorias no container de vidro */
   .glass-card {
     @apply backdrop-blur-xl bg-white/5 border border-white/10;
     box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
@@ -582,5 +580,57 @@
 
   .glass-card:hover {
     box-shadow: 0 0 70px rgba(236, 72, 153, 0.3);
+  }
+
+  /* Animações e transições */
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Ajustes para mobile */
+  @media (max-width: 640px) {
+    main {
+      @apply px-2;
+    }
+
+    .glass-container {
+      @apply mx-0;
+    }
+
+    .glass-button-outline {
+      @apply text-xs px-2 py-1;
+    }
+
+    h1 {
+      @apply text-2xl;
+    }
+
+    h2 {
+      @apply text-xl;
+    }
+  }
+
+  /* Fix para iOS */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+
+  /* Otimizações de performance */
+  * {
+    @apply transform-gpu transition-all duration-300;
+  }
+
+  /* Hide scrollbar */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 </style>

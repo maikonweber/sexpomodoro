@@ -177,33 +177,40 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 p-4 md:p-8 backdrop-blur-md">
-    <!-- Barra de Navegação -->
+    <!-- Barra de Navegação ajustada -->
     <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-4">
-            <h1 class="text-white/80 text-xl font-medium">Sex Pomodoro</h1>
-            <div class="flex gap-4">
+        <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">
+            <h1 class="text-white/80 text-sm md:text-xl font-medium whitespace-nowrap"> Sex Pomodoro </h1>
+            <nav class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
                 <a
                     href="/"
-                    class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+                    class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
                     on:mouseenter={() => playSound(hoverSound)}
                 >
                     Timer
                 </a>
                 <a
                     href="/kamasutra-dado"
-                    class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+                    class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
                     on:mouseenter={() => playSound(hoverSound)}
                 >
-                    Kamasutra Dado
+                    K.Dado
                 </a>
                 <a
                     href="/raspadinha"
-                    class="glass-button-outline px-4 py-2 rounded-full text-sm md:text-base text-white/80 hover:text-white transition-all duration-300"
+                    class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
                     on:mouseenter={() => playSound(hoverSound)}
                 >
                     Raspadinha
                 </a>
-            </div>
+                <a
+                    href="/shop"
+                    class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
+                    on:mouseenter={() => playSound(hoverSound)}
+                >
+                    Shop
+                </a>
+            </nav>
         </div>
     </div>
 
@@ -256,11 +263,12 @@
                 Raspadinha do Amor
             </h1>
 
-            <!-- Seleção de Jogadores -->
-            <div class="flex justify-center gap-4 mb-8">
+            <!-- Seleção de Jogadores ajustada -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 px-2">
                 {#each Array(3) as _, i}
                     <button
-                        class="glass-button-outline px-6 py-3 rounded-full text-lg font-medium {numJogadores === i + 2 ? 'bg-white/20 border-white/40' : ''}"
+                        class="glass-button-outline min-w-[120px] px-3 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-lg font-medium whitespace-nowrap
+                               {numJogadores === i + 2 ? 'bg-white/20 border-white/40' : ''}"
                         on:click={() => setNumJogadores(i + 2)}
                         aria-pressed={numJogadores === i + 2}
                     >
@@ -269,10 +277,10 @@
                 {/each}
             </div>
 
-            <!-- Indicador de Jogador Atual -->
+            <!-- Indicador de Jogador Atual ajustado -->
             <div class="text-center mb-8">
-                <div class="inline-block glass-button-outline px-6 py-3 rounded-full">
-                    <span class="text-white/80">Jogador Atual: </span>
+                <div class="inline-block glass-button-outline px-4 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base">
+                    <span class="text-white/80">Jogador: </span>
                     <span class="text-pink-400 font-bold">{jogadorAtual}</span>
                 </div>
             </div>
@@ -372,6 +380,89 @@
     @media (max-width: 360px) {
         h1 {
             @apply text-3xl;
+        }
+    }
+
+    /* Ajustes para mobile */
+    @media (max-width: 640px) {
+        nav {
+            @apply gap-1;
+        }
+
+        nav a.glass-button-outline {
+            @apply text-xs px-2 py-1 min-w-[60px];
+        }
+
+        h1 {
+            @apply text-sm;
+        }
+
+        .glass-button-outline {
+            @apply text-sm px-3 py-2;
+        }
+
+        .glass-container {
+            @apply p-3;
+        }
+
+        .grid {
+            @apply gap-3;
+        }
+
+        h2 {
+            @apply text-lg;
+        }
+
+        /* Ajuste específico para botões de jogadores */
+        button.glass-button-outline {
+            @apply min-w-0 flex-shrink-0;
+            font-size: 0.875rem;
+        }
+    }
+
+    /* Melhorias gerais de layout */
+    .glass-button-outline {
+        @apply bg-transparent border-2 border-white/20 text-white/80 
+               hover:text-white hover:border-white/40 transition-all duration-300
+               flex items-center justify-center;
+    }
+
+    /* Fix para iOS */
+    @supports (-webkit-touch-callout: none) {
+        .glass-button-outline {
+            @apply backdrop-blur-none;
+        }
+    }
+
+    /* Otimizações de performance */
+    * {
+        @apply transform-gpu;
+    }
+
+    /* Hide scrollbar */
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Melhorias na navegação */
+    nav {
+        @apply flex items-center;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Fix para iOS */
+    @supports (-webkit-touch-callout: none) {
+        nav {
+            @apply -mx-2 px-2;
         }
     }
 </style>
