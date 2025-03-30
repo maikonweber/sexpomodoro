@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Header from '../components/Header.svelte';
+  import AdultProductsBanner from '../components/AdultProductsBanner.svelte';
 
   interface Product {
     productName: string;
@@ -20,9 +21,8 @@
   let currentPage = 1;
   const LIMIT = 20;
   let isMuted = false;
-  let hoverSound: HTMLAudioElement;
 
-  async function fetchOffers(page: number = 1) {
+  async function fetchOffers(page = 1) {
     loading = true;
     try {
       const response = await fetch(
@@ -56,7 +56,6 @@
   }
 
   onMount(async () => {
-    hoverSound = new Audio('../sounds/hover.mp3');
     await loadMoreProducts();
   });
 
@@ -65,6 +64,7 @@
 
   function setupIntersectionObserver(node: Element) {
     observer = new IntersectionObserver((entries) => {
+      // biome-ignore lint/complexity/noForEach: <explanation>
       entries.forEach(entry => {
         if (entry.isIntersecting && !loading) {
           loadMoreProducts();
@@ -79,13 +79,6 @@
         observer.disconnect();
       }
     };
-  }
-
-  function playSound(sound: HTMLAudioElement) {
-    if (!isMuted && sound) {
-      sound.currentTime = 0;
-      sound.play().catch(err => console.error('Erro ao tocar som:', err));
-    }
   }
 
   function formatPrice(price: string): string {
@@ -155,7 +148,6 @@
           target="_blank"
           rel="noopener noreferrer"
           class="glass-card group relative overflow-hidden rounded-2xl transition-all duration-500 hover:scale-[1.02]"
-          on:mouseenter={() => playSound(hoverSound)}
         >
           <div class="relative">
             <img

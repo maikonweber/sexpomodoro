@@ -40,7 +40,7 @@
   let isPaused = false;
 
   async function fetchProducts(keyword: string) {
-    if (loading) return; // Evita múltiplas chamadas simultâneas
+    if (loading) return;
     
     loading = true;
     try {
@@ -83,7 +83,7 @@
   }
 
   function startAutoPlay() {
-    stopAutoPlay(); // Limpa intervalo existente
+    stopAutoPlay();
     autoPlayInterval = setInterval(() => {
       if (!isPaused && !loading) {
         handleNext();
@@ -98,16 +98,6 @@
     }
   }
 
-  function handleMouseEnter() {
-    isPaused = true;
-    stopAutoPlay();
-  }
-
-  function handleMouseLeave() {
-    isPaused = false;
-    startAutoPlay();
-  }
-
   onMount(async () => {
     await fetchProducts(categories[currentIndex].keyword);
     startAutoPlay();
@@ -120,8 +110,6 @@
 
 <div 
   class="glassmorphism-container relative p-8 rounded-2xl backdrop-blur-xl border border-white/10 shadow-xl"
-  on:mouseenter={handleMouseEnter}
-  on:mouseleave={handleMouseLeave}
 >
   <!-- Botões de navegação modificados com novo estilo -->
   <button
