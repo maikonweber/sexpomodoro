@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { tasks, timeLeft, isRunning as storeIsRunning, currentTask } from './store/store';
+  import Header from './components/Header.svelte';
 
   interface Task {
     id: number;
@@ -299,6 +300,8 @@
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative overflow-x-hidden">
+  <Header />
+
   <!-- Barra de Navegação -->
   <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
     <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">

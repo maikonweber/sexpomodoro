@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Header from '../components/Header.svelte';
 
   const data = {
     "data": {
@@ -612,42 +613,7 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900/90 via-purple-900/90 to-slate-900/90 backdrop-blur-md relative overflow-x-hidden">
-  <!-- Header -->
-  <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md border-b border-white/10">
-    <div class="max-w-6xl mx-auto h-16 flex items-center justify-between px-2 md:px-4">
-      <h1 class="text-white/80 text-sm md:text-xl font-medium whitespace-nowrap"> Sex Pomodoro </h1>
-      <nav class="flex gap-2 md:gap-4 overflow-x-auto hide-scrollbar">
-        <a
-          href="/"
-          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
-          on:mouseenter={() => playSound(hoverSound)}
-        >
-          Timer
-        </a>
-        <a
-          href="/kamasutra-dado"
-          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
-          on:mouseenter={() => playSound(hoverSound)}
-        >
-          K.Dado
-        </a>
-        <a
-          href="/raspadinha"
-          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
-          on:mouseenter={() => playSound(hoverSound)}
-        >
-          Raspadinha
-        </a>
-        <a
-          href="/shop"
-          class="glass-button-outline min-w-fit px-2 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-base text-white/80 hover:text-white transition-all duration-300 whitespace-nowrap"
-          on:mouseenter={() => playSound(hoverSound)}
-        >
-          Shop
-        </a>
-      </nav>
-    </div>
-  </div>
+  <Header />
 
   <!-- Botão de Som -->
   <button
