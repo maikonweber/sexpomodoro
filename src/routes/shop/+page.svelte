@@ -128,8 +128,7 @@
   </button>
 
   <main class="max-w-6xl mx-auto px-2 md:px-4 pt-24 pb-24">
-    <AdultProductsBanner />
-
+   
     <!-- Banner -->
     <div class="glass-container mb-8 overflow-hidden">
       <div class="relative overflow-hidden rounded-xl md:rounded-2xl">
