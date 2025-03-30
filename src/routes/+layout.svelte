@@ -7,6 +7,7 @@ let { children } = $props();
 inject();
 </script>
 
+<!-- svelte-ignore slot_element_deprecated -->
 <slot />
 
 <style>

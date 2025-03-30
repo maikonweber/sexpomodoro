@@ -298,6 +298,8 @@
       {/if}
     </button>
 
+ 
+
     <div class="max-w-6xl mx-auto pt-24">
       <div class="glass-container p-4 md:p-8 rounded-3xl mb-24">
         <!-- Título responsivo -->
@@ -400,30 +402,7 @@
       </div>
     </div>
 
-    <!-- Botão de Rolar - Ajustado para mobile -->
-    <div class="sticky bottom-8 right-8 float-right z-[100]">
-      <button
-        on:click={rollDice}
-        disabled={selectedPositions.length < 6 || isRolling}
-        class="floating-dice-button {selectedPositions.length >= 6 ? 'animate-bounce-subtle' : ''}"
-        aria-label="Rolar o dado"
-      >
-        <div class="relative">
-          <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-lg opacity-50"></div>
-          <div class="relative bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-            <svg class="w-8 h-8 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-          </div>
-        </div>
-        {#if selectedPositions.length < 6}
-          <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm text-white whitespace-nowrap">
-            Selecione {6 - selectedPositions.length} posições
-          </div>
-        {/if}
-      </button>
-    </div>
-
+  
     <!-- Indicador de Progresso -->
     <div class="fixed bottom-0 left-0 right-0 h-1 bg-white/10 z-30">
       <div
@@ -498,6 +477,31 @@
       </div>
     {/if}
   </div>
+
+       <!-- Botão de Rolar - Ajustado para ficar sempre visível -->
+       <div class="dice-button-container">
+        <button
+          on:click={rollDice}
+          disabled={selectedPositions.length < 6 || isRolling}
+          class="floating-dice-button {selectedPositions.length >= 6 ? 'animate-bounce-subtle' : ''}"
+          aria-label="Rolar o dado"
+        >
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-lg opacity-50"></div>
+            <div class="relative bg-gradient-to-r from-pink-500 to-purple-500 rounded-full p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <svg class="w-8 h-8 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+          </div>
+          {#if selectedPositions.length < 6}
+            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm text-white whitespace-nowrap">
+              Selecione {6 - selectedPositions.length} posições
+            </div>
+          {/if}
+        </button>
+      </div>
+  
   
   <style lang="postcss">
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
@@ -514,14 +518,27 @@
       animation: gradient 8s ease infinite;
     }
 
+    .dice-button-container {
+  position: fixed;
+  top: 90%;
+  right: 2rem;
+  transform: translateY(-50%);
+  z-index: 9999;
+}
+
+    .dice-button-container button {
+      pointer-events: auto; /* Reativa os eventos apenas no botão */
+    }
+
     .floating-dice-button {
       @apply transition-all duration-300 transform hover:scale-110 focus:outline-none;
-      position: relative;
-      z-index: 100;
+      filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.3));
+      animation: float 3s ease-in-out infinite;
     }
 
     .floating-dice-button:disabled {
       @apply opacity-50 cursor-not-allowed hover:scale-100;
+      animation: none;
     }
 
     .modal-content {
@@ -607,6 +624,9 @@
       }
 
       .floating-dice-button {
+        transform: scale(0.8);
+      }
+      .floating-dice-button:hover {
         transform: scale(0.9);
       }
     }
