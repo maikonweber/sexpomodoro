@@ -1,0 +1,72 @@
+# www.robotstxt.org/
+
+# Allow crawling of all content
+User-agent: *
+Allow: /
+Allow: /shop
+Allow: /components
+Allow: /about
+Allow: /contact
+
+# Disallow sensitive areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /account/
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://seusite.com.br/sitemap.xml
+
+# Block specific bots
+User-agent: BadBot
+Disallow: /
+
+# Social Media Bots
+User-agent: Twitterbot
+Allow: /images/
+Allow: /photos/
+Allow: /thumbnails/
+
+User-agent: facebookexternalhit
+Allow: /images/
+Allow: /photos/
+Allow: /thumbnails/
+
+# Adult Content Warning
+User-agent: *
+Disallow: /adult-content/
+Header: Rating Adult
+
+# Cache Control
+User-agent: *
+Request-rate: 1/10
+Visit-time: 0600-2300
+
+# Specific Product Categories
+Allow: /shop/products/
+Allow: /shop/categories/
+Allow: /shop/brands/
+
+# API Endpoints
+Disallow: /api/
+Disallow: /graphql/
+Disallow: /webhook/
+
+# Clean Parameters
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Prevent duplicate content
+Disallow: /*?
+Disallow: /*&
+Disallow: /*/filter
+Disallow: /*/sort 
